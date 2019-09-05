@@ -15,9 +15,9 @@ final class ImageDownloder {
     
     func downloadImage(imageUrl: String, success: @escaping (UIImage) -> Void, failure: @escaping (Error) -> Void) {
         // キャッシュされたUIImageがあればそれをclosureで返す
-//        if let cacheImage = cacheImage {
-//            success(cacheImage)
-//        }
+        if let cacheImage = cacheImage {
+            success(cacheImage)
+        }
         
         guard let url = URL(string: imageUrl) else {
             failure(APIError.invalidURL)

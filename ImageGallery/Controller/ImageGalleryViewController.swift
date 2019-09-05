@@ -13,7 +13,6 @@ class ImageGalleryViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    fileprivate var viewModel: ImageListViewModel!
     fileprivate var refreshControl: UIRefreshControl!
     
     let feedUrl = URL(string: "https://www.flickr.com/services/feeds/photos_public.gne")!
@@ -36,14 +35,16 @@ class ImageGalleryViewController: UIViewController {
         
         self.collectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ImageCollectionViewCell")
         
-        guard let parser = XMLParser(contentsOf: feedUrl) else { return }
-        parser.delegate = self
-        parser.parse()
+        self.getImagesFromFlickr()
 
     }
     
     @objc func refreshControlValueDidChanged(sender: UIRefreshControl) {
         // リフレッシュ処理
+        self.getImagesFromFlickr()
+    }
+    
+    private func getImagesFromFlickr() {
         guard let parser = XMLParser(contentsOf: feedUrl) else { return }
         parser.delegate = self
         parser.parse()
@@ -85,9 +86,6 @@ extension ImageGalleryViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: height)
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//    }
 //
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
@@ -100,6 +98,7 @@ extension ImageGalleryViewController: UICollectionViewDelegateFlowLayout {
 
 
 extension ImageGalleryViewController: XMLParserDelegate {
+    
     // 解析中に要素の開始タグがあったときに実行されるメソッド
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         self.elementMatch = false
@@ -117,10 +116,7 @@ extension ImageGalleryViewController: XMLParserDelegate {
         }
     }
     
-    // 解析中に要素の終了タグがあったときに実行されるメソッド
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-    }
-    
+    // XML解析開始時に実行されるメソッド
     func parserDidStartDocument(_ parser: XMLParser) {
         self.linkArray.removeAll()
         self.cellViewModels.removeAll()

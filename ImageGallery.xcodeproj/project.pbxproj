@@ -18,9 +18,7 @@
 		6D742152231FED8C005E6990 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D742151231FED8C005E6990 /* Extension.swift */; };
 		6D742155231FEEC4005E6990 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D742153231FEEC4005E6990 /* ImageCollectionViewCell.swift */; };
 		6D742156231FEEC4005E6990 /* ImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D742154231FEEC4005E6990 /* ImageCollectionViewCell.xib */; };
-		6D742158231FEFC7005E6990 /* ImageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D742157231FEFC7005E6990 /* ImageListViewModel.swift */; };
 		6D74215B23202396005E6990 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D74215923202396005E6990 /* ImageDownloader.swift */; };
-		6D74215C23202396005E6990 /* ImageGalleryAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D74215A23202396005E6990 /* ImageGalleryAPIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,9 +47,7 @@
 		6D742151231FED8C005E6990 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		6D742153231FEEC4005E6990 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		6D742154231FEEC4005E6990 /* ImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionViewCell.xib; sourceTree = "<group>"; };
-		6D742157231FEFC7005E6990 /* ImageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewModel.swift; sourceTree = "<group>"; };
 		6D74215923202396005E6990 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
-		6D74215A23202396005E6990 /* ImageGalleryAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGalleryAPIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +95,6 @@
 				6D742148231FE8D2005E6990 /* ViewModel */,
 				6D742147231FE8CB005E6990 /* View */,
 				6D74211C231FCFAF005E6990 /* AppDelegate.swift */,
-				6D742120231FCFAF005E6990 /* Main.storyboard */,
 				6D742123231FCFB1005E6990 /* Assets.xcassets */,
 				6D742125231FCFB1005E6990 /* LaunchScreen.storyboard */,
 				6D742128231FCFB1005E6990 /* Info.plist */,
@@ -120,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				6D74215923202396005E6990 /* ImageDownloader.swift */,
-				6D74215A23202396005E6990 /* ImageGalleryAPIClient.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -138,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				6D74214F231FEB27005E6990 /* ImageCellViewModel.swift */,
-				6D742157231FEFC7005E6990 /* ImageListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -146,7 +139,9 @@
 		6D742149231FE8F4005E6990 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6D74215D2320B70D005E6990 /* Viewer */,
 				6D74213C231FD414005E6990 /* ImageGalleryViewController.swift */,
+				6D742120231FCFAF005E6990 /* Main.storyboard */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -158,6 +153,13 @@
 				6D742151231FED8C005E6990 /* Extension.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		6D74215D2320B70D005E6990 /* Viewer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Viewer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,13 +264,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D742158231FEFC7005E6990 /* ImageListViewModel.swift in Sources */,
 				6D742155231FEEC4005E6990 /* ImageCollectionViewCell.swift in Sources */,
 				6D74215B23202396005E6990 /* ImageDownloader.swift in Sources */,
 				6D74211D231FCFAF005E6990 /* AppDelegate.swift in Sources */,
 				6D74213D231FD414005E6990 /* ImageGalleryViewController.swift in Sources */,
 				6D742152231FED8C005E6990 /* Extension.swift in Sources */,
-				6D74215C23202396005E6990 /* ImageGalleryAPIClient.swift in Sources */,
 				6D742150231FEB27005E6990 /* ImageCellViewModel.swift in Sources */,
 				6D74214C231FE9C6005E6990 /* APIError.swift in Sources */,
 			);

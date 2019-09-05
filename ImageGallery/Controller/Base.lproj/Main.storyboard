@@ -56,10 +56,45 @@
                     <connections>
                         <outlet property="collectionView" destination="e2g-s9-GGb" id="Z4M-5r-CJ6"/>
                         <outlet property="searchBar" destination="5Vj-9g-Rln" id="J7L-lb-Zzy"/>
+                        <segue destination="L0H-N4-TPi" kind="presentation" modalPresentationStyle="overCurrentContext" id="vtI-A8-gEi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Zia-BT-KiP">
+            <objects>
+                <viewController id="L0H-N4-TPi" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ca2-Fd-zdE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yua-fU-Bvr">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.35092979753521125" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bCl-hq-7AJ">
+                                <rect key="frame" x="40" y="204" width="334" height="498"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="39H-Oo-gc6" firstAttribute="trailing" secondItem="bCl-hq-7AJ" secondAttribute="trailing" constant="40" id="Bj9-ae-CQX"/>
+                            <constraint firstItem="bCl-hq-7AJ" firstAttribute="top" secondItem="39H-Oo-gc6" secondAttribute="top" constant="160" id="CDd-lh-cxU"/>
+                            <constraint firstItem="Yua-fU-Bvr" firstAttribute="leading" secondItem="39H-Oo-gc6" secondAttribute="leading" id="RYO-GT-VdV"/>
+                            <constraint firstItem="Yua-fU-Bvr" firstAttribute="top" secondItem="Ca2-Fd-zdE" secondAttribute="top" id="Rbs-nF-9ZK"/>
+                            <constraint firstAttribute="bottom" secondItem="Yua-fU-Bvr" secondAttribute="bottom" id="YbY-nc-ZCI"/>
+                            <constraint firstItem="39H-Oo-gc6" firstAttribute="bottom" secondItem="bCl-hq-7AJ" secondAttribute="bottom" constant="160" id="ePz-Qx-3md"/>
+                            <constraint firstItem="bCl-hq-7AJ" firstAttribute="leading" secondItem="39H-Oo-gc6" secondAttribute="leading" constant="40" id="m9U-Rv-hNj"/>
+                            <constraint firstItem="39H-Oo-gc6" firstAttribute="trailing" secondItem="Yua-fU-Bvr" secondAttribute="trailing" id="rAB-xT-cgG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="39H-Oo-gc6"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iht-No-jai" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1641" y="21"/>
         </scene>
     </scenes>
 </document>
