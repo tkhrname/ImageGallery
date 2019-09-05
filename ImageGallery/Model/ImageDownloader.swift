@@ -15,47 +15,29 @@ final class ImageDownloder {
     
     func downloadImage(imageUrl: String, success: @escaping (UIImage) -> Void, failure: @escaping (Error) -> Void) {
         // キャッシュされたUIImageがあればそれをclosureで返す
-        if let cacheImage = cacheImage {
-            success(cacheImage)
-        }
+//        if let cacheImage = cacheImage {
+//            success(cacheImage)
+//        }
         
         guard let url = URL(string: imageUrl) else {
-            failure(APIError.unknown)
+            failure(APIError.invalidURL)
             return
         }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            // ErrorがあったらErrorをclosureで返す。
-            if let error = error {
-                DispatchQueue.main.async {
-                    failure(error)
-                }
-                return
-            }
-            
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    failure(APIError.unknown)
-                }
-                return
-            }
-            
+        do {
+            let data = try Data(contentsOf: url)
             guard let imageFromData = UIImage(data: data) else {
                 DispatchQueue.main.async {
                     failure(APIError.unknown)
                 }
                 return
             }
-            
             DispatchQueue.main.async {
                 success(imageFromData)
             }
-            self.cacheImage = imageFromData
+        } catch {
+            DispatchQueue.main.async {
+                failure(APIError.invalidResponse)
+            }
         }
-        
-        
-        task.resume()
     }
 }

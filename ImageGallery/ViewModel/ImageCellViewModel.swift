@@ -46,8 +46,8 @@ final class ImageCellViewModel {
         progress(.loading(loadingImage))
         
         // 画像をダウンロード
-        imageDownloader.downloadImage(imageUrl: urlString, success: { image in
-            progress(.finish(image))
+        imageDownloader.downloadImage(imageUrl: urlString, success: { imageData in
+            progress(.finish(imageData))
             self.isLoading = false
         }, failure: { error in
             progress(.error)

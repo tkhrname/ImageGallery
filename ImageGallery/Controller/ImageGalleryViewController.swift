@@ -14,39 +14,39 @@ class ImageGalleryViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     fileprivate var viewModel: ImageListViewModel!
+    fileprivate var refreshControl: UIRefreshControl!
+    
     let feedUrl = URL(string: "https://www.flickr.com/services/feeds/photos_public.gne")!
     
     var elementMatch = false
     var CONTENT = "content"
     var linkArray = Array<String>()
+    var cellViewModels = Array<ImageCellViewModel>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // UIRefreshControl生成
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: #selector(refreshControlValueDidChanged(sender:)), for: .valueChanged)
+        self.collectionView.refreshControl = self.refreshControl
+        
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         
-        let parser: XMLParser! = XMLParser(contentsOf: feedUrl)
+        self.collectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ImageCollectionViewCell")
+        
+        guard let parser = XMLParser(contentsOf: feedUrl) else { return }
         parser.delegate = self
         parser.parse()
 
-//        self.viewModel = ImageListViewModel()
-//        self.viewModel.stateDidUpdate = { [weak self] state in
-//            switch state {
-//            case .loading:
-//                self?.collectionView.isUserInteractionEnabled = false
-//            case .finish:
-//                self?.collectionView.isUserInteractionEnabled = true
-//                self?.collectionView.reloadData()
-//            case .error(let error):
-//                self?.collectionView.isUserInteractionEnabled = true
-//                let alertController = UIAlertController(title: error.localizedDescription, message: nil, preferredStyle: .alert)
-//                let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-//                alertController.addAction(alertAction)
-//                self?.present(alertController, animated: true, completion: nil)
-//            }
-//        }
-//        self.viewModel.getImages()
+    }
+    
+    @objc func refreshControlValueDidChanged(sender: UIRefreshControl) {
+        // リフレッシュ処理
+        guard let parser = XMLParser(contentsOf: feedUrl) else { return }
+        parser.delegate = self
+        parser.parse()
     }
 }
 
@@ -57,19 +57,22 @@ extension ImageGalleryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) // 表示するセルを登録(先程命名した"Cell")
-        cell.backgroundColor = .red  // セルの色
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
+        let cellViewModel = self.cellViewModels[indexPath.row]
+        cellViewModel.downloadImage() { progress in
+            switch progress {
+            case .loading(let image):
+                cell.setImage(image: image)
+            case .finish(let image):
+                cell.setImage(image: image)
+            case .error:
+                break
+            }
+        }
         return cell
     }
     
-//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-//        let width: CGFloat = UIScreen.main.bounds.width / 2 - 1
-//        let height: CGFloat = width
-//        return CGSize(width: width, height: height)
-//    }
-    
 }
-
 
 extension ImageGalleryViewController: UICollectionViewDelegate {
     
@@ -109,6 +112,8 @@ extension ImageGalleryViewController: XMLParserDelegate {
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         if self.elementMatch && string.pregMatchLink() != nil {
             self.linkArray.append(string)
+            let cellViewModel = ImageCellViewModel(urlString: string)
+            self.cellViewModels.append(cellViewModel)
         }
     }
     
@@ -116,8 +121,16 @@ extension ImageGalleryViewController: XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
     }
     
+    func parserDidStartDocument(_ parser: XMLParser) {
+        self.linkArray.removeAll()
+        self.cellViewModels.removeAll()
+    }
+    
     // XML解析終了時に実行されるメソッド
     func parserDidEndDocument(_ parser: XMLParser) {
+        DispatchQueue.main.async {
+            self.refreshControl.endRefreshing()
+        }
         self.collectionView.reloadData()
     }
 }
