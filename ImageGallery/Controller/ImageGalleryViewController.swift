@@ -15,26 +15,31 @@ class ImageGalleryViewController: UIViewController {
     
     fileprivate var refreshControl: UIRefreshControl!
     
-    let feedUrl = URL(string: "https://www.flickr.com/services/feeds/photos_public.gne")!
-    
     var elementMatch = false
     var CONTENT = "content"
     var linkArray = Array<String>()
     var cellViewModels = Array<ImageCellViewModel>()
     
+    let ENDPOINT = "https://www.flickr.com/services/feeds/photos_public.gne"
+    
+    var searchText: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.searchBar.delegate = self
         
         // UIRefreshControl生成
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: #selector(refreshControlValueDidChanged(sender:)), for: .valueChanged)
         self.collectionView.refreshControl = self.refreshControl
         
+        // UICollectionViewの初期設定
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-        
         self.collectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ImageCollectionViewCell")
         
+        // イメージ取得処理
         self.getImagesFromFlickr()
 
     }
@@ -44,13 +49,18 @@ class ImageGalleryViewController: UIViewController {
         self.getImagesFromFlickr()
     }
     
-    private func getImagesFromFlickr() {
+    fileprivate func getImagesFromFlickr(query: String? = nil) {
+        let feedURLString = query == nil ? ENDPOINT : ENDPOINT + "?tags=" + query!
+        guard let feedUrl = URL(string: feedURLString) else { return }
         guard let parser = XMLParser(contentsOf: feedUrl) else { return }
         parser.delegate = self
+        self.refreshControl.beginRefreshing()
         parser.parse()
     }
+    
 }
 
+// MARK: - UICollectionViewDataSource
 extension ImageGalleryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -75,28 +85,55 @@ extension ImageGalleryViewController: UICollectionViewDataSource {
     
 }
 
+// MARK: - UICollectionViewDelegate
 extension ImageGalleryViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.searchBar.endEditing(true)
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "vierwer") as? ViewerViewController else { return }
+        vc.modalTransitionStyle = .crossDissolve
+        let cellViewModel = self.cellViewModels[indexPath.row]
+        cellViewModel.downloadImage() { progress in
+            switch progress {
+            case .loading(let image):
+                vc.image = image
+            case .finish(let image):
+                vc.image = image
+                self.present(vc, animated: true, completion: nil)
+            case .error:
+                break
+            }
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.searchBar.endEditing(true)
+    }
     
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension ImageGalleryViewController: UICollectionViewDelegateFlowLayout {
+    
+    // UICollectionViewのサイズを指定
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = self.collectionView.frame.width / 2 - 1
         let height: CGFloat = width
         return CGSize(width: width, height: height)
     }
     
-//
+    // UICollectionViewの行間サイズを指定
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
-//
+    
+    // UICollectionViewの列間サイズを指定
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
 }
 
-
+// MARK: - XMLParserDelegate
 extension ImageGalleryViewController: XMLParserDelegate {
     
     // 解析中に要素の開始タグがあったときに実行されるメソッド
@@ -124,9 +161,32 @@ extension ImageGalleryViewController: XMLParserDelegate {
     
     // XML解析終了時に実行されるメソッド
     func parserDidEndDocument(_ parser: XMLParser) {
-        DispatchQueue.main.async {
-            self.refreshControl.endRefreshing()
-        }
+
+        self.refreshControl.endRefreshing()
+
         self.collectionView.reloadData()
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension ImageGalleryViewController: UISearchBarDelegate {
+    //サーチバー更新時
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchText = searchText
+    }
+    
+    //キャンセルクリック時
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchText = nil
+        self.searchBar.text = ""
+        self.searchBar.endEditing(true)
+    }
+    
+    //サーチボタンクリック時
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.endEditing(true)
+        if let searchText = self.searchText {
+            self.getImagesFromFlickr(query: searchText)
+        }
     }
 }

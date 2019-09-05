@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// MARK: - UIImage
 extension UIImage {
     convenience init?(color: UIColor, size: CGSize) {
         let rect = CGRect(origin: .zero, size: size)
@@ -22,6 +23,7 @@ extension UIImage {
     }
 }
 
+// MARK: - String
 extension String {
     
     /// URL抽出
@@ -42,6 +44,7 @@ extension String {
         return urlString.isEmpty == true ? nil : urlString[0]
     }
     
+    // ".jpg"にマッチする文字列を取得する
     func pregMatchLink() -> String? {
         guard let urlString = self.pregMatch() else { return nil }
         if ".jpg" == urlString.suffix(4) {

@@ -19,6 +19,7 @@
 		6D742155231FEEC4005E6990 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D742153231FEEC4005E6990 /* ImageCollectionViewCell.swift */; };
 		6D742156231FEEC4005E6990 /* ImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D742154231FEEC4005E6990 /* ImageCollectionViewCell.xib */; };
 		6D74215B23202396005E6990 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D74215923202396005E6990 /* ImageDownloader.swift */; };
+		6D74215F2320C738005E6990 /* ViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D74215E2320C738005E6990 /* ViewerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		6D742153231FEEC4005E6990 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		6D742154231FEEC4005E6990 /* ImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		6D74215923202396005E6990 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		6D74215E2320C738005E6990 /* ViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +142,9 @@
 			isa = PBXGroup;
 			children = (
 				6D74215D2320B70D005E6990 /* Viewer */,
-				6D74213C231FD414005E6990 /* ImageGalleryViewController.swift */,
 				6D742120231FCFAF005E6990 /* Main.storyboard */,
+				6D74213C231FD414005E6990 /* ImageGalleryViewController.swift */,
+				6D74215E2320C738005E6990 /* ViewerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				6D74213D231FD414005E6990 /* ImageGalleryViewController.swift in Sources */,
 				6D742152231FED8C005E6990 /* Extension.swift in Sources */,
 				6D742150231FEB27005E6990 /* ImageCellViewModel.swift in Sources */,
+				6D74215F2320C738005E6990 /* ViewerViewController.swift in Sources */,
 				6D74214C231FE9C6005E6990 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
