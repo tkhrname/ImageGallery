@@ -141,7 +141,6 @@
 		6D742149231FE8F4005E6990 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6D74215D2320B70D005E6990 /* Viewer */,
 				6D742120231FCFAF005E6990 /* Main.storyboard */,
 				6D74213C231FD414005E6990 /* ImageGalleryViewController.swift */,
 				6D74215E2320C738005E6990 /* ViewerViewController.swift */,
@@ -156,13 +155,6 @@
 				6D742151231FED8C005E6990 /* Extension.swift */,
 			);
 			path = Utility;
-			sourceTree = "<group>";
-		};
-		6D74215D2320B70D005E6990 /* Viewer */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Viewer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

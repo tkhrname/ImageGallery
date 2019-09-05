@@ -15,14 +15,14 @@ class ImageGalleryViewController: UIViewController {
     
     fileprivate var refreshControl: UIRefreshControl!
     
-    var elementMatch = false
-    var CONTENT = "content"
-    var linkArray = Array<String>()
-    var cellViewModels = Array<ImageCellViewModel>()
+    var elementMatch = false // 読み込んだデータのタグマッチに使用
+    var CONTENT = "content" // contentタグを指定
+    var linkArray = Array<String>() // 画像リンク用配列
+    var cellViewModels = Array<ImageCellViewModel>() // UICollectionViewCell用ViewModel配列
     
     let ENDPOINT = "https://www.flickr.com/services/feeds/photos_public.gne"
     
-    var searchText: String?
+    var searchText: String? // タグ検索用文字列
     
     override func viewDidLoad() {
         super.viewDidLoad()
